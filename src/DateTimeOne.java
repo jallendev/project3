@@ -1,19 +1,21 @@
-import java.util.Date;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
+	private Calendar now = Calendar.getInstance();
 
 	@Override
 	int getValueOfSecond() {
-		Date now = new Date();
-		return now.getSeconds();
+		now = Calendar.getInstance();
+		System.out.println("The value of Second now: " + now.SECOND);
+		return now.SECOND;
 	}
 
 	@Override
 	void dateTimeNow() {
-		// TODO Auto-generated method stub
-		
+		now = Calendar.getInstance();
+		System.out.println("Current Date/Time: " + now.MONTH + "/" + now.DAY_OF_MONTH + "/" + now.YEAR + " " + now.HOUR + ":" + now.MINUTE + " " + now.AM_PM);
 	}
 
 	@Override
