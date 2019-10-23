@@ -1,21 +1,31 @@
-import java.util.Calendar;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.util.concurrent.TimeUnit;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
-	private Calendar now = Calendar.getInstance();
+	private ZonedDateTime now = ZonedDateTime.now();
+	private ZonedDateTime gmtTime = now.withZoneSameInstant(ZoneOffset.UTC);
+	private ZonedDateTime bstTime = gmtTime.plusHours(6);
+	private ZonedDateTime cstTime = gmtTime.minusHours(5);
+
+	private DateTimeFormatter nowDateFormatter = DateTimeFormatter.ofPattern("MM/DD/yyyy hh:mm a");
+	private DateTimeFormatter otherCityFormatter = DateTimeFormatter.ofPattern("hh:mm");
+	private DateTimeFormatter differentZoneFormatter = DateTimeFormatter.ofPatter("MM/DD/yyyy hh:mm");
 
 	@Override
 	int getValueOfSecond() {
-		now = Calendar.getInstance();
-		System.out.println("The value of Second now: " + now.SECOND);
-		return now.SECOND;
+		now = ZonedDateTime.now();
+		System.out.println("The value of Second now: " + now.getSecond());
+		return now.getSecond();
 	}
 
 	@Override
 	void dateTimeNow() {
-		now = Calendar.getInstance();
-		System.out.println("Current Date/Time: " + now.MONTH + "/" + now.DAY_OF_MONTH + "/" + now.YEAR + " " + now.HOUR + ":" + now.MINUTE + " " + now.AM_PM);
+		now = ZonedDateTime.now();
+		System.out.println("Current Date/Time: " + nowDateFormatter.format(now));
 	}
 
 	@Override
@@ -29,14 +39,16 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	@Override
 	void dateTimeOfOtherCity() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Time on Server: " + otherCityFormatter.format(now));
+		System.out.println("GMT: " + otherCityFormatter.format(gmtTime));
+		System.out.println("BST (90E): " + otherCityFormatter.format(bstTime));
+		System.out.println("CST (90W): " + otherCityFormatter.format(cstTime));
 	}
 
 	@Override
 	void dateTimeDifferentZone() {
-		// TODO Auto-generated method stub
-		
+		HashMap timeZonesMap = new HashMap();
+		timeZonesMap
 	}
 
 	@Override
