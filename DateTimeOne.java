@@ -47,8 +47,14 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	@Override
 	void dateTimeDifferentZone() {
-		HashMap timeZonesMap = new HashMap();
-		timeZonesMap
+		HashMap<String, String> timeZonesMap = new HashMap<String, String>();
+		timeZonesMap.put("GMT", differentZoneFormatter.format(gmtTime));
+		timeZonesMap.put("BST", differentZoneFormatter.format(bstTime));
+		timeZonesMap.put("CST", differentZoneFormatter.format(cstTime));
+		
+		System.out.println("GMT: " + timeZonesMap.get("GMT"));
+		System.out.println("BST: " + timeZonesMap.get("BST"));
+		System.out.println("CST: " + timeZonesMap.get("CST"));
 	}
 
 	@Override
