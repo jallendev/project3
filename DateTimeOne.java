@@ -3,6 +3,8 @@ import java.time.ZoneOffset;
 import java.util.concurrent.TimeUnit;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Collections;
+import java.util.Arrays;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
@@ -13,7 +15,10 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	private DateTimeFormatter nowDateFormatter = DateTimeFormatter.ofPattern("MM/DD/yyyy hh:mm a");
 	private DateTimeFormatter otherCityFormatter = DateTimeFormatter.ofPattern("hh:mm");
-	private DateTimeFormatter differentZoneFormatter = DateTimeFormatter.ofPatter("MM/DD/yyyy hh:mm");
+	private DateTimeFormatter differentZoneFormatter = DateTimeFormatter.ofPattern("MM/DD/yyyy hh:mm");
+	private DateTimeFormatter localTimeArrayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-DDThh:mm");
+	
+	HashMap<String, String> timeZonesMap = new HashMap<String, String>();
 
 	@Override
 	int getValueOfSecond() {
@@ -47,7 +52,6 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	@Override
 	void dateTimeDifferentZone() {
-		HashMap<String, String> timeZonesMap = new HashMap<String, String>();
 		timeZonesMap.put("GMT", differentZoneFormatter.format(gmtTime));
 		timeZonesMap.put("BST", differentZoneFormatter.format(bstTime));
 		timeZonesMap.put("CST", differentZoneFormatter.format(cstTime));
@@ -59,8 +63,42 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 
 	@Override
 	void timeZoneHashMap() {
-		// TODO Auto-generated method stub
+		timeZonesMap.put("ZST", "11/05/2018 19:59");
+		timeZonesMap.put("AST", "10/01/2020 19:59");
 		
+		HashMap<String, String> secondMap = new HashMap<String, String>();
+		LocalDateTime[] localTimes = new LocalDateTime[timeZonesMap.size()];
+		int index = 0;
+		
+		for (String time : timeZonesMap.values()) {
+			secondMap.put(time, "");
+			LocalDateTime convertedTime = LocalDateTime.parse(time, differentZoneFormatter);
+			localTimes[index] = convertedTime;
+			++index;
+		}
+		
+		List sortedKeys = new ArrayList(timeZonesMap.keySet());
+		Collections.sort(sortedKeys);
+		
+		System.out.println("Print Style 1:");
+		for (String key : sortedKeys) {
+			System.out.println(key + " " + timeZonesMap.get(key));
+		}
+		
+		List sortedKeysSecondMap = new ArrayList(secondMap.keySet());
+		Collections.sort(sortedKeysSecondMap);
+		
+		System.out.println("Print Style 3:");
+		for (String key : sortedKeysSecondMap) {
+			System.out.println(key);
+		}
+		
+		Arrays.sort(localTimes);
+		
+		System.out.println("Print Style 5: Final sorted Array:");
+		for (LocalDateTime time : localTimes) {
+			System.out.println(localTimeArrayFormatter.format(time));
+		}
 	}
    
 }
