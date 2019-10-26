@@ -2,24 +2,48 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class DateSortingUsingAlgorithm {
 
 	private HashMap<LocalDate, Integer> sortingDates = new HashMap<LocalDate, Integer>();
+	private LinkedHashMap<LocalDate, Integer> ascendingOrder = new LinkedHashMap<LocalDate, Integer>();
+	private LinkedHashMap<LocalDate, Integer> descendingOrder = new LinkedHashMap<LocalDate, Integer>();
+	
+	DateTimeFormatter withHyphensFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public DateSortingUsingAlgorithm() {
 		readSortingDatesFile();
+		
+		ArrayList<LocalDate> sortedKeys = new ArrayList<LocalDate>(sortingDates.keySet());
+		
+		sortedKeys = bubbleSort(sortedKeys);
+		
+		for (LocalDate date : sortedKeys) {
+			ascendingOrder.put(date, sortingDates.get(date));
+		}
+		
+		sortedKeys = reverse(sortedKeys);
+		
+		for (LocalDate date : sortedKeys) {
+			descendingOrder.put(date, sortingDates.get(date));
+		}
 	}
 	
 	public void dateHashMapSortedDescending() {
-		// TODO Auto-generated method stub
-		
+		for (LocalDate date : descendingOrder.keySet()) {
+			System.out.println(withHyphensFormatter.format(date));
+		}
 	}
 
 	public void dateHashMapSorted() {
-		// TODO Auto-generated method stub
-		
+		for (LocalDate date : ascendingOrder.keySet()) {
+			System.out.println(withHyphensFormatter.format(date));
+		}
 	}
 	
 	private void readSortingDatesFile() {
@@ -51,5 +75,30 @@ public class DateSortingUsingAlgorithm {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	private ArrayList<LocalDate> reverse(ArrayList<LocalDate> dates) 
+    { 
+        ArrayList<LocalDate> retDates = new ArrayList<LocalDate>(); 
+        for (int i = dates.size() - 1; i >= 0; i--) { 
+        	retDates.add(dates.get(i)); 
+        }
+        return retDates; 
+    }
+	
+	private ArrayList<LocalDate> bubbleSort(ArrayList<LocalDate> dates){
+		LocalDate swap = LocalDate.now();
+		
+		for (int i = 0; i < dates.size(); i++) {
+	        for (int j = 1; j < (dates.size() - i); j++) {
+	            if (dates.get(j - 1).compareTo(dates.get(j)) > 0) {
+	                swap = dates.get(j - 1);
+	                dates.set(j - 1, dates.get(j));
+	                dates.set(j, swap);
+	            }
+	        }
+	    }
+		
+		return dates;
 	}
 }
