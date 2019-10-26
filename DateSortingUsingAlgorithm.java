@@ -58,7 +58,7 @@ public class DateSortingUsingAlgorithm {
 			// read the file
 			line = fileReader.readLine();
 			while (line != null) {
-				line.trim();
+				line = line.trim();
 				String[] dateBits = line.split("\\-");
 				
 				sortingDates.put(LocalDate.of(Integer.parseInt(dateBits[0]), Integer.parseInt(dateBits[1]), Integer.parseInt(dateBits[2])), 
