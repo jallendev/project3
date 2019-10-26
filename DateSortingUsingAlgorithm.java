@@ -60,6 +60,8 @@ public class DateSortingUsingAlgorithm {
 			while (line != null) {
 				line = line.trim();
 				String[] dateBits = line.split("\\-");
+				for (int index = 0; index < dateBits.length; ++index)
+					dateBits[index] = dateBits[index].trim();
 				
 				sortingDates.put(LocalDate.of(Integer.parseInt(dateBits[0]), Integer.parseInt(dateBits[1]), Integer.parseInt(dateBits[2])), 
 						THIS_NUMBER_DOES_NOT_MATTER_BUT_I_DIDNT_WANT_TO_MAKE_IT_MAGIC);
@@ -71,9 +73,9 @@ public class DateSortingUsingAlgorithm {
 		// An IOException will most likely occur in the case of the FILENAME variable
 		// being initialized with an incorrect path.
 		catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.out.println(e);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e);
 		}
 	}
 	
