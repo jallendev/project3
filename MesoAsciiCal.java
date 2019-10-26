@@ -34,6 +34,6 @@ public class MesoAsciiCal extends MesoAsciiAbstract
 		else
 			secondAvg = Math.ceil(secondAvg);
 		
-		return (int) Math.ceil((firstAvg + secondAvg) / 2);
+		return (int) (firstAvg + secondAvg) / 2;
 	}
 }

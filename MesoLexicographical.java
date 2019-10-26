@@ -22,9 +22,8 @@ public class MesoLexicographical extends MesoSortedAbstract
 		
 		for (String asciiKey : sortedKeys) {
 			sortedVals.put(asciiKey, asciiVal.get(asciiKey));
-			System.out.println(asciiKey + " " + asciiVal.get(asciiKey));
+			System.out.println(asciiKey);
 		}
-		
 		return sortedVals;
 	}
 }
