@@ -1,10 +1,7 @@
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.util.concurrent.TimeUnit;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.Arrays;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class DateTimeOne extends MesoDateTimeOneAbstract
 {
@@ -77,7 +74,7 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 			++index;
 		}
 		
-		List sortedKeys = new ArrayList(timeZonesMap.keySet());
+		ArrayList<String> sortedKeys = new ArrayList<String>(timeZonesMap.keySet());
 		Collections.sort(sortedKeys);
 		
 		System.out.println("Print Style 1:");
@@ -85,7 +82,7 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 			System.out.println(key + " " + timeZonesMap.get(key));
 		}
 		
-		List sortedKeysSecondMap = new ArrayList(secondMap.keySet());
+		ArrayList<String> sortedKeysSecondMap = new ArrayList<String>(secondMap.keySet());
 		Collections.sort(sortedKeysSecondMap);
 		
 		System.out.println("Print Style 3:");
