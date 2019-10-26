@@ -9,6 +9,7 @@ import java.util.*;
 public class DateTimeTwo {
 
 	HashMap<LocalDate, Integer> datesFile = new HashMap<LocalDate, Integer>();
+	LinkedHashMap<LocalDate, Integer> originalOrderFile = new LinkedHashMap<LocalDate, Integer>();
 	
 	private DateTimeFormatter hashMapFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -67,7 +68,7 @@ public class DateTimeTwo {
 		
 		readDatesFile();
 		
-		for (LocalDate date : datesFile.keySet()) {
+		for (LocalDate date : originalOrderFile.keySet()) {
 			dateDifference = Period.between(date, currDate);
 			years = dateDifference.getYears();
 			months = dateDifference.getMonths();
@@ -84,8 +85,8 @@ public class DateTimeTwo {
 	}
 	
 	public void dateHashMap() {
-		for (LocalDate dateKey : datesFile.keySet()) {
-			System.out.println(hashMapFormatter.format(dateKey) + ":" + datesFile.get(dateKey));
+		for (LocalDate dateKey : originalOrderFile.keySet()) {
+			System.out.println(hashMapFormatter.format(dateKey) + ":" + originalOrderFile.get(dateKey));
 		}
 	}
 	
@@ -99,13 +100,13 @@ public class DateTimeTwo {
 	}
 
 	private void readDatesFile() {
-		final String FILENAME = "src/Dates.txt";
+		final String FILENAME = "Dates.txt";
 		// catch IOException if one occurs and print error message
 		try {
 			// Declare necessary variables and objects
 			BufferedReader fileReader = new BufferedReader(new FileReader(FILENAME));
 			String line = new String("");
-			Integer iterator = new Integer(1);
+			Integer iterator = 1;
 
 			// read the file
 			line = fileReader.readLine();
@@ -113,6 +114,7 @@ public class DateTimeTwo {
 				String[] dateBits = line.split("\\.");
 				
 				datesFile.put(LocalDate.of(Integer.parseInt(dateBits[2]), Integer.parseInt(dateBits[0]), Integer.parseInt(dateBits[1])), iterator);
+				originalOrderFile.put(LocalDate.of(Integer.parseInt(dateBits[2]), Integer.parseInt(dateBits[0]), Integer.parseInt(dateBits[1])), iterator);
 				
 				++iterator;
 				line = fileReader.readLine();
