@@ -2,12 +2,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class DateTimeTwo {
 
 	HashMap<LocalDate, Integer> datesFile = new HashMap<LocalDate, Integer>();
+	
+	private DateTimeFormatter hashMapFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	public void daysOfCurrentMonth() {
 		LocalDateTime currDay = LocalDateTime.now();
@@ -79,21 +82,35 @@ public class DateTimeTwo {
 					months + " months, and " + days + " days.");
 		}
 	}
+	
+	public void dateHashMap() {
+		for (LocalDate dateKey : datesFile.keySet()) {
+			System.out.println(hashMapFormatter.format(dateKey) + ":" + datesFile.get(dateKey));
+		}
+	}
+	
+	public void dateHashMapSorted() {
+		ArrayList<LocalDate> sortedKeys = new ArrayList<LocalDate>(datesFile.keySet());
+		Collections.sort(sortedKeys);
+		
+		for (LocalDate dateKey : sortedKeys) {
+			System.out.println(hashMapFormatter.format(dateKey) + ":" + datesFile.get(dateKey));
+		}
+	}
 
 	private void readDatesFile() {
-		final String FILENAME = "Dates.txt";
+		final String FILENAME = "src/Dates.txt";
 		// catch IOException if one occurs and print error message
 		try {
 			// Declare necessary variables and objects
 			BufferedReader fileReader = new BufferedReader(new FileReader(FILENAME));
 			String line = new String("");
-			String[] dateBits = new String[3];
 			Integer iterator = new Integer(1);
 
 			// read the file
 			line = fileReader.readLine();
 			while (line != null) {
-				dateBits = line.split(".");
+				String[] dateBits = line.split("\\.");
 				
 				datesFile.put(LocalDate.of(Integer.parseInt(dateBits[2]), Integer.parseInt(dateBits[0]), Integer.parseInt(dateBits[1])), iterator);
 				

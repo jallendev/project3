@@ -10,10 +10,10 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 	private ZonedDateTime bstTime = gmtTime.plusHours(6);
 	private ZonedDateTime cstTime = gmtTime.minusHours(5);
 
-	private DateTimeFormatter nowDateFormatter = DateTimeFormatter.ofPattern("MM/DD/yyyy hh:mm a");
-	private DateTimeFormatter otherCityFormatter = DateTimeFormatter.ofPattern("hh:mm");
-	private DateTimeFormatter differentZoneFormatter = DateTimeFormatter.ofPattern("MM/DD/yyyy hh:mm");
-	private DateTimeFormatter localTimeArrayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-DDThh:mm");
+	private DateTimeFormatter nowDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+	private DateTimeFormatter otherCityFormatter = DateTimeFormatter.ofPattern("HH:mm");
+	private DateTimeFormatter differentZoneFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+	private DateTimeFormatter localTimeArrayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 	
 	HashMap<String, String> timeZonesMap = new HashMap<String, String>();
 
@@ -91,6 +91,7 @@ public class DateTimeOne extends MesoDateTimeOneAbstract
 		}
 		
 		Arrays.sort(localTimes);
+		Collections.reverse(Arrays.asList(localTimes));
 		
 		System.out.println("Print Style 5: Final sorted Array:");
 		for (LocalDateTime time : localTimes) {
