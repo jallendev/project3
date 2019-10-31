@@ -29,21 +29,30 @@ public class MesoEquivalent {
 	 */
 	private String stID = "";
 
+	//initialize and read
 	public MesoEquivalent(String stId) {
 		this.stID = stId;
 		readFile();
 	}
 
+	//Find the stations with an ascii Avg equal to the current station
 	public HashMap<String, Integer> calAsciiEqual() {
+		//store all the equal IDs that get found
 		HashMap<String, Integer> equalIDs = new HashMap<String, Integer>();
+		//An object to run calAverage on each station
 		MesoAsciiCal calculator = new MesoAsciiCal(new MesoStation(stID));
+		//Holds this stations average
 		int stIDAvg = calculator.calAverage();
+		//Holds the current stations average
 		int stationAvg = 0;
 
 		for (String station : stations) {
 			if (station != null) {
+				//point calculator at next station
 				calculator = new MesoAsciiCal(new MesoStation(station));
+				//calculate the average
 				stationAvg = calculator.calAverage();
+				//if they're equal, store it
 				if (stIDAvg == stationAvg) {
 					equalIDs.put(station, stationAvg);
 				}

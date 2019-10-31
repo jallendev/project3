@@ -9,43 +9,49 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class DateSortingUsingAlgorithm {
-
+	//Build HashMap for each ordering. LinkedHashMaps are used for sorted data sets to preserve insertion order.
 	private HashMap<LocalDate, Integer> sortingDates = new HashMap<LocalDate, Integer>();
 	private LinkedHashMap<LocalDate, Integer> ascendingOrder = new LinkedHashMap<LocalDate, Integer>();
 	private LinkedHashMap<LocalDate, Integer> descendingOrder = new LinkedHashMap<LocalDate, Integer>();
 	
+	//A formatter to make sure dates are printed properly
 	DateTimeFormatter withHyphensFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
+	//Sorts the data sets using helper methods and stores the data in HashMaps above.
 	public DateSortingUsingAlgorithm() {
+		//read the file
 		readSortingDatesFile();
-		
+		//sort with the keyset
 		ArrayList<LocalDate> sortedKeys = new ArrayList<LocalDate>(sortingDates.keySet());
-		
+		//bubble sort the keys
 		sortedKeys = bubbleSort(sortedKeys);
-		
+		//place in the ascending order LinkedHashMap
 		for (LocalDate date : sortedKeys) {
 			ascendingOrder.put(date, sortingDates.get(date));
 		}
-		
+		//reverse
 		sortedKeys = reverse(sortedKeys);
-		
+		//place in the descending order LinkedHashMap
 		for (LocalDate date : sortedKeys) {
 			descendingOrder.put(date, sortingDates.get(date));
 		}
 	}
 	
+	//print the created and formatted LinkedHashMap
 	public void dateHashMapSortedDescending() {
 		for (LocalDate date : descendingOrder.keySet()) {
 			System.out.println(withHyphensFormatter.format(date));
 		}
 	}
 
+	//print the created and formatted LinkedHashMap
 	public void dateHashMapSorted() {
 		for (LocalDate date : ascendingOrder.keySet()) {
 			System.out.println(withHyphensFormatter.format(date));
 		}
 	}
 	
+	//Simply reads the given file in order to acquire the data.
 	private void readSortingDatesFile() {
 		final String FILENAME = "SortingDates.txt";
 		final int THIS_NUMBER_DOES_NOT_MATTER_BUT_I_DIDNT_WANT_TO_MAKE_IT_MAGIC = 0;
@@ -58,6 +64,7 @@ public class DateSortingUsingAlgorithm {
 			// read the file
 			line = fileReader.readLine();
 			while (line != null) {
+				//Both the line and split parts are trimmed to clear unneccessary whitespace
 				line = line.trim();
 				String[] dateBits = line.split("\\-");
 				for (int index = 0; index < dateBits.length; ++index)
@@ -79,6 +86,7 @@ public class DateSortingUsingAlgorithm {
 		}
 	}
 	
+	//Reverses the given ArrayList without using Collections.
 	private ArrayList<LocalDate> reverse(ArrayList<LocalDate> dates) 
     { 
         ArrayList<LocalDate> retDates = new ArrayList<LocalDate>(); 
@@ -88,6 +96,7 @@ public class DateSortingUsingAlgorithm {
         return retDates; 
     }
 	
+	//A basic implementation of the standard bubble sort algorithm. Bubble sort has a worst case and average complexity of O(n^2).
 	private ArrayList<LocalDate> bubbleSort(ArrayList<LocalDate> dates){
 		LocalDate swap = LocalDate.now();
 		
