@@ -2,57 +2,124 @@
 
 ## Problem Solving Approach
 
-For this project, I worked mostly from the output sample specified in the project requirements. To accomplish the project requirements I split the project into 5 basic tasks:
+For this project, I worked mostly from the output sample specified in the project requirements. To accomplish the project requirements I built 6 classes:
 
- - Read the file, Mesonet.txt.
- - Calculate the Average ASCII value of a given station ID.
- - Convert this average to its char representation.
- - Find the stations adjacent to the given station ID.
- - Find the stations beginning with a given letter.
+ - <code>DateTimeOne</code>: This class fulfills the requirements of section 1, printing different dates and times.
+ - <code>DateTimeTwo</code>: This class takes a more macro approach and makes comaprisons between years and days of months.
+ - <code>MesoAsciiCal</code>: This class simply calculates an ascii average of a station based on the project guidelines.
+ - <code>MesoEquivalent</code>: This class finds stations with an average equal to the current station and makes a list.
+ - <code>MesoLexicographical</code>: This class sorts the list from MesoEquivalent lexicographically.
+ - <code>DateSortingUsingAlgorithm</code>: This class sorts dates using a bubble sort algorithm I implemented myself.
 
-These helper methods are initiated from the constructor, and implemented in MesoInherit. The other classes can then call the helper methods in MesoInherit in order to access the protected Mesonet array data.
+These classes are used as applicable by the <code>Main</code> class in order to output all data in the format required by the project guidelines.
 
 ## Description of Methods and Variables
 
-### MesoInherit
+### <code>DateTimeOne</code>
 
 ### Variables
 
-- I used a variety of const variables to avoid unneccessary use of "magic" data.
-- stations: a String[] to hold all station IDs read from the file.
-- stID: a String to hold the selected ID to use for processing.
+- <code>ZonedDateTime</code> objects: 4 objects holding the <code>ZonedDateTime</code> values now, GMT, BST, and CST respectively.
+- <code>DateTimeFormatter</code> objects: 4 objects holding various output formats for the project guidelines.
+- timeZonesMap: A <code>HashMap<String, String></code> containing the 5 time zones required by the project guidelines.
 
 ### Methods
 
-#### public MesoInherit(MesoStation stn)
+#### <code>int getValueOfSecond()</code>
 
-Constructor for MesoInherit. Sets the stID and reads the Mesonet.txt file with the use of helper methods. MesoStation is given by the Driver class.
+Uses the base <code>ZonedDateTime</code> to acquire the current second on the server clock. Prints a <code>String</code> in the format <code>The value of Second now: " + now.getSecond()</code>
 
-#### public int[] calAverage()
+#### <code>void dateTimeNow()</code>
 
-Calculates the average ASCII value of the given station ID. Returns an int array with the ceil of the average in [0], the floor of the average in [1], and the rounded value of the average in [2].
+Gets the current time from the <code>now</code> object. <code>now</code> is reinstantiated in case the server just slept for 5 seconds. Prints an output <code>String</code> in the format <code>Current Date/Time: " + nowDateFormatter.format(now)</code>
 
-#### public char letterAverage()
+#### <code>void sleepForFiveSec()</code>
 
-Converts the returned average of calAverage() to its char representation.
+Uses the default Java system interface api to sleep the server for 5 seconds.
 
-#### public int getIndex()
+#### <code>void dateTimeOfOtherCity()</code>
 
-Finds the index of the station ID in the Mesonet.txt file.
+Prints <code>ZonedDateTime</code> objects using the <code>DateTimeFormatter</code> object otherCityFormatter.
 
-#### public String[] getAvgStations(int index)
+#### <code>void dateTimeDifferentZone()</code>
 
-Find the four stations adjacent to the station at the given index
+Same as <code>void dateTimeOfOtherCity()</code>, but stores the dates in a <code>HashMap</code> and prints in a slightly different format.
 
-#### public int getNoStationsForLetter(char letter)
+#### <code>void timeZoneHashMap()</code>
 
-Reads the stations array to find the number of stations beginning with the given letter.
+Add some arbitrary time zones, print, sort, format, and print again. See method comments for more details.
 
-#### public String[] getStationsForLetter(char letter)
+### <code>DateTimeTwo</code>
 
-Creates a list with all stations beginning with the given letter.
+### Variables
 
-#### private void readFile()
+- datesFile: A <code>HashMap<LocalDate, Integer></code> to hold the values of dates read from Dates.txt.
+- originalOrderFile: A <code>LinkedHashMap<LocalDate, Integer></code> to hold the values of dates read from Dates.txt in sorted order.
+- hashMapFormatter: Another <code>DateTimeFormatter</code> to make sure output is the way the pdf wants it.
+
+### Methods
+
+#### <code>public void daysOfCurrentMonth()</code>
+
+Figures out which days are TENTH and EIGHTEENTH in the current month
+
+#### <code>public void daysOfAnyMonth(int month, int year)</code>
+
+Similar to the method above, but now the user gets to choose the month and year. The QA engineer will choose something like <code>S*&#$*&%&@</code> because thay like breaking the hard work of programmers.
+
+#### <code>public void compareYear()</code>
+
+This method figures out whether the year is a leap year, and what the date difference is.
+
+#### <code>public void dateHashMap()</code>
+
+Prints the HashMap before sorting
+
+#### <code>public void dateHashMapSorted()</code>
+
+Sorts the HashMap and displays in the same manner
+
+#### <code>private void readDatesFile()</code>
+
+It does what it says
+
+### <code>MesoAsciiCal</code>
+
+### Variables
+
+- stID: a <code>String</code> that holds <code>this</code> station ID.
+
+### Methods
+
+#### <code>public MesoAsciiCal(MesoStation mesoStation)</code>
+
+Extracts station ID from given <code>MesoStation</code> and assigns it to the class variable.
+
+#### <code>int calAverage()</code>
+
+Calculates an Ascii average based on a first average and second average. The first average is calculated based on <code>this</code> stationID. The second average is calculated based on a fixed <code>String</code>: "NRMN". These are then averaged to form the return value.
+
+### <code>MesoEquivalent</code>
+
+### Variables
+
+- <code>private final int INITIAL_STATION_SIZE</code>: The beginning capacity of the stations array.
+- <code>private final String FILENAME</code>: The filepath for the Mesonet.txt file. May need to be changed depending on relative working directory.
+- <code>private final String STATION_COLUMN_HEADER</code>: The fileReader looks for this column header to begin reading in station IDs.
+- <code>private String[] stations</code>: An array to hold station IDs read from the Mesonet.txt file. Initialized with a value of 10.
+- <code>private String stID</code>: The stID <code>String</code> holds the code for the station given by the Driver class to use for execution.
+
+### Methods
+
+#### <code>public MesoEquivalent(String stId)</code>
+
+Intializes variables and begans the process of reading the Mesonet.txt file.
+
+#### <code>public HashMap<String, Integer> calAsciiEqual()</code>
+ 
+Find the stations with an ascii Average equal to the current station and return them.
+
+#### <code>private void readFile()</code>
 
 Reads the Mesonet.txt file and inputs the results into the stations array. See code comments for detailed implementation explanation. Basic summary:
 
@@ -61,54 +128,60 @@ Reads the Mesonet.txt file and inputs the results into the stations array. See c
  - Uses Scanner to acquire the first token from each line.
  - Begins reading upon finding the STID header.
 
-#### private String[] expandStations()
+#### <code>private String[] expandStations()</code>
 
 Expands the stations array with 10 extra slots. Returns the expanded array with values copied from the stations array.
 
-### LetterAvg
+### <code>MesoLexicographical</code>
 
 ### Variables
 
-- letter: holds the letter to search for in MesoInherit.getStationsForLetter(letter).
-
+- asciiVal: a <code>HashMap<String, Integer></code> that holds the given values to sort lexically.
+ 
 ### Methods
 
-#### public LetterAvg(char letter)
+#### <code>public MesoLexicographical(HashMap<String, Integer> asciiVal)</code>
 
-Initializes the letter char with the given letter.
+Assigns stations to asciiVal and begans <code>sortedMap()</code>
 
-#### public int numberOfStationWithLetterAvg()
+#### <code>Map<String, Integer> sortedMap(HashMap<String, Integer> unsorted)</code>
 
-Returns the int from the MesoInherit.getNoStationsForLetter(letter) helper method.
+Takes and unsorted <code>HashMap</code> and returns a sorted <code>LinkedHashMap</code>.
 
-#### public String toString()
-
-Returns a string in the format:
-<code> They are: (all stations beginning with given char letter) </code>
-
-### PosAvg
+### <code>DateSortingUsingAlgorithm</code>
 
 ### Variables
 
-- stID: the station to use for processing
-- index: an integer to hold the stations position in the Mesonet.txt file
-- avgStations: a String[] to hold the 4 adjacent stations to this station
-
+- <code>private HashMap<LocalDate, Integer> sortingDates</code>: Holds the original dates from the SortingDates.txt file.
+- <code>private LinkedHashMap<LocalDate, Integer> ascendingOrder</code>: Holds the dates sorted in ascending order.
+- <code>private LinkedHashMap<LocalDate, Integer> descendingOrder</code>: Holds the dates sorted in descending order.
+ 
 ### Methods
 
-#### public PosAvg(String stID)
+#### <code>public DateSortingUsingAlgorithm()</code>
 
-Initializes stID with the given value, and other variables with MesoInherit helper methods.
+Sorts the data sets using helper methods and stores the data in <code>HashMaps</code> above.
 
-#### public int indexOfStation()
+#### <code>public void dateHashMapSortedDescending()</code>
 
-Returns the index value.
+Prints descendingOrder.
 
-#### public String toString()
+#### <code>public void dateHashMapSorted()</code>
 
-Returns a string in the format:
-<code> "This index is average of " + avgStations[1] + " and " + avgStations[2] + ", " + avgStations[0] + " and " + avgStations[3] + ", and so on." </code>
+Prints ascendingOrder.
+
+#### <code>private void readSortingDatesFile()</code>
+
+Reads the file while trimming the dates to ensure no whitespace is taken.
+
+#### <code>private ArrayList<LocalDate> reverse(ArrayList<LocalDate> dates)</code>
+
+Reverses the given <code>ArrayList</code> without using <code>Collections</code>.
+
+#### <code>private ArrayList<LocalDate> bubbleSort(ArrayList<LocalDate> dates)</code>
+
+A basic implementation of the standard bubble sort algorithm. Bubble sort has a worst case and average complexity of <code>O(n<sup>2</sup>)</code>.
 
 ## Code Analysis
 
-This implementation is efficient with regards to time, but I do not believe it is as effecient as it could be with regards to system resources. In hindsight I would have liked to make most of the helper methods in MesoInherit static as this could have cut down on the amount of memory needed to run the program. As it is though, the program uses an extremely minimal amount of resources anyway, so this change would likely be only for personal satisfaction with the implementation.
+For this implementation, I focused on reusability. Given that many of our project descriptions have been similar, I wanted to make sure code could be reused in the future for different purposes to save unneccessary time and work. Hence, I used several helper methods in a lot of the classes to compartmentalize code features. As far as the question at the end of Main: my times between the two date sorting methods should be roughly similar each time it is run, as they both simply output the dates and do not sort them.
